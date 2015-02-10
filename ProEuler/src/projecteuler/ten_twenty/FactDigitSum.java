@@ -1,4 +1,4 @@
-package projecteuler.twenty_thirty;
+package projecteuler.ten_twenty;
 
 import java.math.BigInteger;
 

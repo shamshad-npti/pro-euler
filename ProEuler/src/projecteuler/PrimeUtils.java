@@ -12,7 +12,7 @@ import java.util.Scanner;
  * @author shame
  */
 public class PrimeUtils {
-    private static final int OFFSET = 65536; // eight times more entries [upto 4 million]
+    private static final int OFFSET = 8192; // eight times more entries [upto 4 million]
     private static final long[] PRIME_TABLE = new long[OFFSET];
     static {
         try {
