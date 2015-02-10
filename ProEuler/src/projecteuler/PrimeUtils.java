@@ -31,6 +31,38 @@ public class PrimeUtils {
         else return ((PRIME_TABLE[n >> 7] >>> ((n >> 1) & 63)) & 1) != 0;
     }
     
+    public static int factorSum(int n) {
+        if(n == 1)
+            return 1;
+        else if(isPrime(n))
+            return n + 1;
+        else {
+            Iterator<Integer> itr = PrimeUtils.primeIterator();
+            int sum = 1;
+            while(n != 1) {
+                int p = itr.next();
+                if(n % p == 0) {
+                    int s = 1;
+                    while(n % p == 0) {
+                        n /= p;
+                        s = s * p + 1;
+                    }
+                    sum *= s;
+                    if(isPrime(n))
+                    {
+                        sum *= (n + 1);
+                        break;
+                    }
+                }
+            }
+            return sum;
+        }
+    }
+    
+    public static int properFactorSum(int n) {
+        return factorSum(n) - n;
+    }
+    
     private static int pt() throws FileNotFoundException {
         System.setOut(new PrintStream("primes-2"));
         int s = 1 << 26, p = 1 << 13;
