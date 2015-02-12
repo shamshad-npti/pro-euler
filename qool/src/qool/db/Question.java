@@ -17,16 +17,16 @@
  */
 package qool.db;
 
-import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 
 /**
  *
  * @author Shamshad Alam
  */
-@Entity(name = "question")
-public class Question extends DbObject {
+@MappedSuperclass
+public abstract class Question extends DbObject {
 
     @ManyToOne
     @JoinColumn(name = "question_type_id", referencedColumnName = "id", nullable = false)
@@ -36,7 +36,24 @@ public class Question extends DbObject {
     @JoinColumn(name = "quiz_id", referencedColumnName = "id", nullable = false)
     private Quiz quiz;
 
-    public Question() {
+    public Question(QuestionType questionType) {
+        this.questionType = questionType;
+    }
+
+    public Quiz getQuiz() {
+        return quiz;
+    }
+
+    public void setQuiz(Quiz quiz) {
+        this.quiz = quiz;
+    }
+
+    public QuestionType getQuestionType() {
+        return questionType;
+    }
+
+    protected void setQuestionType(QuestionType questionType) {
+        this.questionType = questionType;
     }
 
     @Override

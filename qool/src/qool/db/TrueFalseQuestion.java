@@ -17,10 +17,39 @@
  */
 package qool.db;
 
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+
 /**
  *
  * @author shame
  */
-public class TrueFalseQuestion {
+@Entity(name = "true_false_question")
+public class TrueFalseQuestion extends Question {
+
+    @Embedded
+    private Option trueOption;
+    @Embedded
+    private Option falseOption;
+
+    public TrueFalseQuestion() {
+        super(QuestionType.TRUE_FALSE_QUESTION);
+    }
+
+    public Option getTrueOption() {
+        return trueOption;
+    }
+
+    public Option getFalseOption() {
+        return falseOption;
+    }
+
+    public void setTrueOption(Option trueOption) {
+        this.trueOption = trueOption;
+    }
+
+    public void setFalseOption(Option falseOption) {
+        this.falseOption = falseOption;
+    }
 
 }

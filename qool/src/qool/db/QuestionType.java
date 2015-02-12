@@ -26,6 +26,9 @@ import javax.persistence.Entity;
  */
 @Entity(name = "question_type")
 public class QuestionType extends DbObject {
+    public static final QuestionType MCQ_QUESTION = new QuestionType("MCQ");
+    public static final QuestionType TRUE_FALSE_QUESTION = new QuestionType("True/False");
+    public static final QuestionType ONE_WORD_QUESTION = new QuestionType("Short Answer(One/Two Word)");
 
     @Column(name = "title", nullable = false, unique = true)
     private String type;

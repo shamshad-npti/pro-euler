@@ -17,10 +17,30 @@
  */
 package qool.db;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+
 /**
  *
  * @author shame
  */
-public class OneWordQuestion {
+@Entity(name = "one_word_question")
+public class OneWordQuestion extends Question {
+
+    @ElementCollection
+    @Embedded
+    final private List<Option> answers;
+
+    public OneWordQuestion() {
+        super(QuestionType.ONE_WORD_QUESTION);
+        this.answers = new ArrayList<>();
+    }
+
+    public List<Option> getAnswers() {
+        return answers;
+    }
 
 }

@@ -17,10 +17,29 @@
  */
 package qool.db;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+
 /**
  *
  * @author shame
  */
-public class MCQQuestion {
+@Entity(name = "mcq_question")
+public class MCQQuestion extends Question {
 
+    @ElementCollection
+    @Embedded
+    final private List<Option> options;
+
+    public List<Option> getOptions() {
+        return options;
+    }
+
+    public MCQQuestion() {
+        super(QuestionType.MCQ_QUESTION);
+        this.options = new ArrayList<>();
+    }
 }
