@@ -2,14 +2,14 @@ package qool;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
-import qool.db.QuestionType;
+import qool.dao.DbException;
+import qool.dao.DbManager;
+import qool.dao.JPADbManager;
+import qool.db.Course;
 
 /**
  *
@@ -21,12 +21,8 @@ public class Qool extends Application {
     public void start(Stage primaryStage) {
         Button btn = new Button();
         btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
+        btn.setOnAction((ActionEvent event) -> {
+            System.out.println("Hello World!");
         });
         
         StackPane root = new StackPane();
@@ -41,14 +37,17 @@ public class Qool extends Application {
 
     /**
      * @param args the command line arguments
+     * @throws qool.dao.DbException
      */
-    public static void main(String[] args) {
-        EntityManager em = Persistence.createEntityManagerFactory("qoolPU").createEntityManager();
-        QuestionType qt = new QuestionType("This is absolutely triple fuck!!!");
-        em.getTransaction().begin();
-        em.persist(qt);
-        em.getTransaction().commit();
-        System.out.println(qt);
+    public static void main(String[] args) throws DbException {
+        DbManager db = JPADbManager.getDbManager();
+        Course course = new Course(1);
+        course.setTitle("Data Structure");
+        db.save(course);
+        if (db.exists(course)) {
+            course = db.findById(course.getId(), Course.class);
+            System.out.println(course);
+        }
         launch(args);
     }
     

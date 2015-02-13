@@ -50,6 +50,22 @@ public class Course extends DbObject {
         this.title = name;
     }
 
+    public List<Quiz> getQuizes() {
+        return quizes;
+    }
+
+    public void setQuizes(List<Quiz> quizes) {
+        this.quizes = quizes;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     @Override
     public String displayString() {
         return title;

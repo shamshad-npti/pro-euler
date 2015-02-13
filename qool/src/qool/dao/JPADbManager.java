@@ -46,7 +46,7 @@ public class JPADbManager implements DbManager {
 
     public static DbManager getDbManager() {
         if (dbm == null) {
-            dbm = new JPADbManager("qool");
+            dbm = new JPADbManager("qoolPU");
         }
         return dbm;
     }
@@ -188,7 +188,7 @@ public class JPADbManager implements DbManager {
         cq.select(root.alias("id")).where(cb.equal(root.get("id"), dbo.getId()));
         TypedQuery<T> q = em.createQuery(cq);
         q.setMaxResults(1);
-        return q.getResultList().isEmpty();
+        return !q.getResultList().isEmpty();
     }
 
     @Override
