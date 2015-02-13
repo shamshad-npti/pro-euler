@@ -21,6 +21,9 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -46,7 +49,12 @@ public class Quiz extends DbObject {
     private Date scheduledResultDate;
     @Column(name = "anonymous_entry")
     private boolean anonymousEntryAllowed;
-    @OneToMany(mappedBy = "quiz")
+
+    @ManyToOne
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    private Course course;
+
+    @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY)
     private List<Question> questions;
 
     public Quiz(long id) {
@@ -54,6 +62,23 @@ public class Quiz extends DbObject {
     }
 
     public Quiz() {
+        this(0);
+    }
+
+    public List<? extends Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public String getAccessCode() {

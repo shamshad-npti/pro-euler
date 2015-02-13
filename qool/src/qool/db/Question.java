@@ -17,15 +17,18 @@
  */
 package qool.db;
 
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
 
 /**
  *
  * @author Shamshad Alam
  */
-@MappedSuperclass
+@Inheritance(strategy = InheritanceType.JOINED)
+@Entity(name = "question")
 public abstract class Question extends DbObject {
 
     @ManyToOne
@@ -38,6 +41,9 @@ public abstract class Question extends DbObject {
 
     public Question(QuestionType questionType) {
         this.questionType = questionType;
+    }
+
+    public Question() {
     }
 
     public Quiz getQuiz() {

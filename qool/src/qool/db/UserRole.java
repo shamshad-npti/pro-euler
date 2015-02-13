@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 shame
+ * Copyright (C) 2015 Shamshad Alam
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -17,47 +17,23 @@
  */
 package qool.db;
 
-import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-
 /**
  *
  * @author shame
  */
-@Entity(name = "course")
-public class Course extends DbObject {
+public enum UserRole {
+    STUDENT("Student"),
+    ADMIN("Admin"),
+    QUIZ_HOST("Quiz Host");
+    private final String role;
 
-    @Column(unique = true, name = "title")
-    private String title;
-    @OneToMany(mappedBy = "course")
-    private List<Quiz> quizes;
-
-    public Course(long id) {
-        super(id);
-    }
-
-    public Course() {
-    }
-
-    public Course(String name, long id) {
-        super(id);
-        this.title = name;
-    }
-
-    public Course(String name) {
-        this.title = name;
-    }
-
-    @Override
-    public String displayString() {
-        return title;
+    private UserRole(String role) {
+        this.role = role;
     }
 
     @Override
     public String toString() {
-        return "{id=" + getId() + ", title=" + title + '}';
+        return role;
     }
 
 }

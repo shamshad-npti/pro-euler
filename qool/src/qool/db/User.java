@@ -19,6 +19,7 @@ package qool.db;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 
 /**
  *
@@ -34,7 +35,8 @@ public class User extends DbObject {
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "user_role")
-    private String role;
+    @Enumerated
+    private UserRole role;
     @Column(name = "suspended")
     private boolean suspended;
 
@@ -51,11 +53,11 @@ public class User extends DbObject {
         this.lastName = lastName;
     }
 
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 

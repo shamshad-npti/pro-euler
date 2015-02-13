@@ -22,8 +22,8 @@ import javax.persistence.Version;
 public abstract class DbObject implements Serializable, Comparable<DbObject> {
 
     @Id
-    @Column(name = "id", insertable = false, updatable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", insertable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Version
     @Column(name = "version")
