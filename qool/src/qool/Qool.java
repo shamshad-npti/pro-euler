@@ -1,15 +1,12 @@
 package qool;
 
+import java.io.IOException;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import qool.dao.DbException;
-import qool.dao.DbManager;
-import qool.dao.JPADbManager;
-import qool.db.Course;
 
 /**
  *
@@ -18,17 +15,10 @@ import qool.db.Course;
 public class Qool extends Application {
     
     @Override
-    public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction((ActionEvent event) -> {
-            System.out.println("Hello World!");
-        });
+    public void start(Stage primaryStage) throws IOException {
+        Pane pane = FXMLLoader.load(getClass().getResource("CourseView.fxml"));
         
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        
-        Scene scene = new Scene(root, 300, 250);
+        Scene scene = new Scene(pane, 300, 250);
         
         primaryStage.setTitle("Hello World!");
         primaryStage.setScene(scene);
@@ -40,14 +30,6 @@ public class Qool extends Application {
      * @throws qool.dao.DbException
      */
     public static void main(String[] args) throws DbException {
-        DbManager db = JPADbManager.getDbManager();
-        Course course = new Course(1);
-        course.setTitle("Data Structure");
-        db.save(course);
-        if (db.exists(course)) {
-            course = db.findById(course.getId(), Course.class);
-            System.out.println(course);
-        }
         launch(args);
     }
     
