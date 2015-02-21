@@ -155,6 +155,7 @@ public class JPADbManager implements DbManager {
             if (exists(dbo)) {
                 prepareForUpdate(dbo);
                 em.getTransaction().begin();
+                System.out.println("Merging...");
                 em.merge(dbo);
                 em.getTransaction().commit();
             } else {
@@ -185,7 +186,7 @@ public class JPADbManager implements DbManager {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(clazz);
         Root<T> root = cq.from(clazz);
-        cq.select(root.alias("id")).where(cb.equal(root.get("id"), dbo.getId()));
+        cq.multiselect(root.get("id")).where(cb.equal(root.get("id"), cb.literal(dbo.getId())));
         TypedQuery<T> q = em.createQuery(cq);
         q.setMaxResults(1);
         return !q.getResultList().isEmpty();

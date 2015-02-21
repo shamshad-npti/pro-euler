@@ -2,24 +2,24 @@ package qool;
 
 import java.io.IOException;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import qool.dao.DbException;
+import qool.dao.DbManager;
+import qool.dao.JPADbManager;
+import qool.view.admin.AdminView;
 
 /**
  *
  * @author shame
  */
 public class Qool extends Application {
-    
+    private DbManager dbManager = JPADbManager.getDbManager();
+
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Pane pane = FXMLLoader.load(getClass().getResource("CourseView.fxml"));
-        
-        Scene scene = new Scene(pane, 300, 250);
-        
+        AdminView view = new AdminView(dbManager);
+        Scene scene = new Scene(view.createView(), 800, 700);
         primaryStage.setTitle("Hello World!");
         primaryStage.setScene(scene);
         primaryStage.show();

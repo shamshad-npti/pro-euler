@@ -15,12 +15,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package qool.view.dialog;
+package qool.view;
+
+import javafx.scene.control.Menu;
+import javafx.scene.control.ToolBar;
 
 /**
  *
  * @author Shamshad Alam
  */
-public class CourseDialog extends QoolDialog {
-
+public interface ViewManager {
+    public void addToLeftPane(QoolWidget widget);
+    public void addToRightPane(QoolWidget widget);
+    public void addToMenuBar(Menu menu);
+    public void addToToolBar(ToolBar toolBar);
+    public void setMainPane(QoolWidget widget);
 }

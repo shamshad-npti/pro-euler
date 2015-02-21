@@ -15,12 +15,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package qool.view.dialog;
+package qool.view;
 
 /**
  *
  * @author shame
  */
-public class QoolDialog {
-
+public interface ViewSetting {
+    public boolean leftPaneVisible();
+    public boolean rightPaneVisible();
+    public boolean toolBarVisible();
+    public boolean statusBarVisible();
+    public boolean menuBarVisible();
+    public boolean openInNewWindow();
 }

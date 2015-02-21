@@ -30,7 +30,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author shame
+ * @author Shamshad Alam
  */
 @Entity(name = "quiz")
 public class Quiz extends DbObject {
