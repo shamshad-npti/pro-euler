@@ -1,30 +1,36 @@
 package projecteuler;
 
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.PrintStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.BitSet;
 import java.util.Iterator;
-import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author shame
  */
 public class PrimeUtils {
-    private static final int OFFSET = 8192; // eight times more entries [upto 4 million]
+    private static final int OFFSET = 65536; // eight times more entries [upto 4 million]
     private static final long[] PRIME_TABLE = new long[OFFSET];
     static {
         try {
-            Scanner in = new Scanner(new File("primes-2"));
-            int k = 0;
-            while(k < OFFSET)
-                PRIME_TABLE[k++] = in.nextLong();
-        } catch(Exception ex) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("prime-table"))) {
+                int k = 0;
+                while (k < OFFSET) {
+                    PRIME_TABLE[k++] = ois.readLong();
+                }
+            }
+        } catch (Exception ex) {
             System.out.println("Unable to load prime table");
         }
     }
-    
+
     public static boolean isPrime(int n) {
         if(n == 2) return true;
         else if((n & 1) == 0) return false;
@@ -63,8 +69,7 @@ public class PrimeUtils {
         return factorSum(n) - n;
     }
     
-    private static int pt() throws FileNotFoundException {
-        System.setOut(new PrintStream("primes-2"));
+    private static int pt() throws FileNotFoundException, IOException {
         int s = 1 << 26, p = 1 << 13;
         BitSet bt = new BitSet(s);
         bt.set(0);
@@ -77,7 +82,7 @@ public class PrimeUtils {
         }
         
         for(int i = 0; i < s; i+= 2) {
-            Pack.add(!bt.get(i));
+            Pack.PACK.add(!bt.get(i));
         }
         return 0;
     }
@@ -130,11 +135,26 @@ public class PrimeUtils {
             }            
         }
     }
-    
+
     private static class Pack {
-        private static long pack = 0;
-        private static long c = 0;
-        private static void add(boolean b) {
+        private static final Pack PACK = new Pack();
+        private long pack = 0;
+        private long c = 0;
+        private ObjectOutputStream out;
+
+        public Pack() {
+            try {
+                this.out = new ObjectOutputStream(new FileOutputStream("prime-table"));
+            } catch (IOException ex) {
+                Logger.getLogger(PrimeUtils.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        private void finish() throws IOException {
+            out.flush();
+            out.close();
+        }
+        private void add(boolean b) throws IOException {
             pack = (pack >>> 1);
             if(b) {
                 pack |= (1L << 63);
@@ -142,7 +162,7 @@ public class PrimeUtils {
             c++;
             if(c == 64) {
                 c = 0;
-                System.out.println(pack);
+                out.writeLong(pack);
                 pack = 0;
             }
         }
